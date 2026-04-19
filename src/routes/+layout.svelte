@@ -282,7 +282,7 @@ h1{
   import { supabase } from "$lib/supabase";
   import { snackbar } from "$lib/snackbar";
 
-  const superAdminUid = "SlEcCRpD6NSPIQDwK46TWhTXzn22";
+  const superAdminUid = "Zzjym4rd6jbxlDsUxCMxZbx2juu2";
 
   let loading = true;
 
