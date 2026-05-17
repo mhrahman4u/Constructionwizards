@@ -1,0 +1,13 @@
+
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.constructionwizard.app",
+      "sha256_cert_fingerprints": [
+        "0D:E1:D5:D0:6D:CC:33:D5:6F:BB:B0:6D:71:C4:4B:B8:9A:CE:76:B8:CF:31:28:F1:34:88:EB:F6:91:57:A1:D5"
+      ]
+    }
+  }
+]

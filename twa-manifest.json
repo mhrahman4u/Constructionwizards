@@ -1,0 +1,50 @@
+{
+  "packageId": "com.constructionwizard.app",
+  "host": "constructionwizards.app",
+  "name": "Construction Wizard",
+  "launcherName": "Const wizard",
+  "display": "standalone",
+  "themeColor": "#11BA66",
+  "themeColorDark": "#000000",
+  "navigationColor": "#000000",
+  "navigationColorDark": "#000000",
+  "navigationDividerColor": "#000000",
+  "navigationDividerColorDark": "#000000",
+  "backgroundColor": "#11BA66",
+  "enableNotifications": true,
+  "startUrl": "/",
+  "iconUrl": "https://constructionwizards.app/516.png",
+  "maskableIconUrl": "https://constructionwizards.app/516.png",
+  "splashScreenFadeOutDuration": 300,
+  "signingKey": {
+    "path": "C:\\Users\\abhis\\web-app\\android.keystore",
+    "alias": "constructionwizard"
+  },
+  "appVersionName": "3",
+  "appVersionCode": 3,
+  "shortcuts": [],
+  "generatorApp": "bubblewrap-cli",
+  "webManifestUrl": "https://constructionwizards.app/manifest.webmanifest",
+  "fallbackType": "customtabs",
+  "features": {},
+  "alphaDependencies": {
+    "enabled": false
+  },
+  "enableSiteSettingsShortcut": true,
+  "isChromeOSOnly": false,
+  "isMetaQuest": false,
+  "fullScopeUrl": "https://constructionwizards.app/",
+  "minSdkVersion": 21,
+  "orientation": "portrait",
+  "fingerprints": [],
+  "additionalTrustedOrigins": [],
+  "retainedBundles": [],
+  "protocolHandlers": [],
+  "fileHandlers": [],
+  "launchHandlerClientMode": "",
+  "displayOverride": [
+    "window-controls-overlay",
+    "standalone"
+  ],
+  "appVersion": "3"
+}
