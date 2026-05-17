@@ -18,25 +18,51 @@ export default defineConfig({
 			},
 
 			manifest: {
+				id: '/',
+
 				name: 'Construction wizard',
 				short_name: 'Construction wizard',
-				description: 'My PWA App',
+
+				description: 'Construction learning platform',
+
 				start_url: '/',
 				scope: '/',
+
 				display: 'standalone',
 
 				background_color: '#11ba66',
 				theme_color: '#11ba66',
 
+				display_override: [
+					'window-controls-overlay',
+					'standalone'
+				],
+
 				icons: [
 					{
 						src: '/192.png',
 						sizes: '192x192',
-						type: 'image/png'
+						type: 'image/png',
+						purpose: 'any maskable'
 					},
 					{
 						src: '/516.png',
 						sizes: '512x512',
+						type: 'image/png',
+						purpose: 'any maskable'
+					}
+				],
+
+				screenshots: [
+					{
+						src: '/screenshots/desktop.png',
+						sizes: '1280x720',
+						type: 'image/png',
+						form_factor: 'wide'
+					},
+					{
+						src: '/screenshots/mobile.png',
+						sizes: '540x720',
 						type: 'image/png'
 					}
 				]

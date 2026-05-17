@@ -518,6 +518,15 @@ onDestroy(() => {
 
 </div>
 
+<footer class="footer">
+	<a href="/privacy-policy">Privacy Policy</a>
+
+	<a href="/terms-and-conditions">
+		Terms & Conditions
+	</a>
+
+	<a href="/contact">Contact</a>
+</footer>
 <style>
 /* ================= PAGE ================= */
 
@@ -1420,5 +1429,30 @@ h1,h2,h3,h4,h5,p{
 .cta button:hover{
   transform:translateY(-4px) scale(1.03);
   box-shadow:0 20px 40px rgba(32,85,155,.35);
+}
+
+
+.footer{
+	display:flex;
+	justify-content:center;
+	gap:20px;
+	padding:24px;
+	flex-wrap:wrap;
+
+	background:#11ba66;
+}
+
+.footer a{
+	color:white;
+	text-decoration:none;
+	font-size:14px;
+	opacity:.85;
+
+	transition:.25s;
+}
+
+.footer a:hover{
+	opacity:1;
+	color:#11ba66;
 }
 </style>
