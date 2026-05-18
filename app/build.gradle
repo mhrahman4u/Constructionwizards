@@ -24,7 +24,7 @@ def twaManifest = [
     applicationId: 'com.constructionwizard.app',
     hostName: 'constructionwizards.app', // The domain being opened in the TWA.
     launchUrl: '/', // The start path for the TWA. Must be relative to the domain.
-    name: 'Construction Wizard', // The application name.
+    name: 'Construction Wizards', // The application name.
     launcherName: 'Construction wizards', // The name shown on the Android Launcher.
     themeColor: '#11BA66', // The color used for the status bar.
     themeColorDark: '#000000', // The color used for the dark status bar.
@@ -57,8 +57,8 @@ android {
         applicationId "com.constructionwizard.app"
         minSdkVersion 21
         targetSdkVersion 35
-        versionCode 5
-        versionName "5"
+        versionCode 6
+        versionName "6"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name

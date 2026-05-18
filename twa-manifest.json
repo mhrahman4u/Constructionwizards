@@ -14,7 +14,7 @@
   "enableNotifications": true,
   "startUrl": "/",
   "iconUrl": "https://constructionwizards.app/192.png",
- 
+  "maskableIconUrl": "https://constructionwizards.app/192.png",
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
     "path": "C:\\Users\\abhis\\web-app\\android.keystore",
