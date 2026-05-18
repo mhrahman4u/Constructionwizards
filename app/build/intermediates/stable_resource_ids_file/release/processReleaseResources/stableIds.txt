@@ -267,6 +267,7 @@ com.constructionwizard.app:style/TextAppearance.AppCompat.Widget.ActionMode.Titl
 com.constructionwizard.app:string/abc_action_bar_up_description = 0x7f0f0001
 com.constructionwizard.app:string/abc_action_bar_home_description = 0x7f0f0000
 com.constructionwizard.app:raw/web_app_manifest = 0x7f0e0000
+com.constructionwizard.app:mipmap/ic_maskable = 0x7f0d0001
 com.constructionwizard.app:mipmap/ic_launcher = 0x7f0d0000
 com.constructionwizard.app:layout/support_simple_spinner_dropdown_item = 0x7f0c002a
 com.constructionwizard.app:layout/select_dialog_singlechoice_material = 0x7f0c0029
