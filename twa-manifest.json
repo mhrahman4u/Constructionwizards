@@ -1,7 +1,7 @@
 {
   "packageId": "com.constructionwizard.app",
   "host": "constructionwizards.app",
-  "name": "Construction Wizard",
+  "name": "Construction Wizards",
   "launcherName": "Construction wizards",
   "display": "standalone",
   "themeColor": "#11BA66",
@@ -14,7 +14,7 @@
   "enableNotifications": true,
   "startUrl": "/",
   "iconUrl": "https://constructionwizards.app/192.png",
-  "maskableIconUrl": "https://constructionwizards.app/192.png",
+ 
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
     "path": "C:\\Users\\abhis\\web-app\\android.keystore",
