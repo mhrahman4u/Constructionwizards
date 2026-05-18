@@ -36,7 +36,7 @@
     <!-- Value from default config. -->
     <string name="launchUrl" translatable="false">https://constructionwizards.app/</string>
     <!-- Value from default config. -->
-    <string name="launcherName" translatable="false">Const wizards</string>
+    <string name="launcherName" translatable="false">Construction wizards</string>
     <!-- Value from default config. -->
     <string name="orientation" translatable="false">portrait</string>
     <!-- Value from default config. -->

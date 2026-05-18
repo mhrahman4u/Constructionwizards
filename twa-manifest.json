@@ -2,7 +2,7 @@
   "packageId": "com.constructionwizard.app",
   "host": "constructionwizards.app",
   "name": "Construction Wizard",
-  "launcherName": "Const wizards",
+  "launcherName": "Construction wizards",
   "display": "standalone",
   "themeColor": "#11BA66",
   "themeColorDark": "#000000",
@@ -20,8 +20,8 @@
     "path": "C:\\Users\\abhis\\web-app\\android.keystore",
     "alias": "constructionwizard"
   },
-  "appVersionName": "4",
-  "appVersionCode": 4,
+  "appVersionName": "5",
+  "appVersionCode": 5,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://constructionwizards.app/manifest.webmanifest",
@@ -46,5 +46,5 @@
     "window-controls-overlay",
     "standalone"
   ],
-  "appVersion": "4"
+  "appVersion": "5"
 }
