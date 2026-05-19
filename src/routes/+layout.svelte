@@ -420,11 +420,21 @@ if (!user) {
     }
 
     // ✅ User
-    else {
-      if (!currentPath.startsWith("/page")) {
-        goto("/page/home", { replaceState: true });
-      }
-    }
+    // else {
+    //   if (!currentPath.startsWith("/page")) {
+    //     goto("/page/home", { replaceState: true });
+    //   }
+    // }
+else {
+  if (
+    !currentPath.startsWith("/page") &&
+    !isPublic
+  ) {
+    goto("/page/home", {
+      replaceState: true
+    });
+  }
+}
 
     loading = false;
   });
