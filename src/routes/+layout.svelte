@@ -357,7 +357,8 @@ onMount(() => {
   "/privacy-policy",
   "/terms",
   "/about",
-  "/contact"
+  "/contact",
+  "/delete-account",
 ];
 
 const isPublic = publicPages.some((p) =>
