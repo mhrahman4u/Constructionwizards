@@ -14,14 +14,13 @@
   "enableNotifications": true,
   "startUrl": "/",
   "iconUrl": "https://constructionwizards.app/192.png",
- 
   "splashScreenFadeOutDuration": 300,
   "signingKey": {
     "path": "C:\\Users\\abhis\\web-app\\android.keystore",
     "alias": "constructionwizard"
   },
-  "appVersionName": "6",
-  "appVersionCode": 6,
+  "appVersionName": "7",
+  "appVersionCode": 7,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://constructionwizards.app/manifest.webmanifest",
@@ -46,5 +45,5 @@
     "window-controls-overlay",
     "standalone"
   ],
-  "appVersion": "6"
+  "appVersion": "7"
 }
