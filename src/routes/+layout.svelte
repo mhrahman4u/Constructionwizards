@@ -352,15 +352,38 @@ onMount(() => {
   const unsubscribe = auth.onAuthStateChanged(async (user) => {
     const currentPath = $page.url.pathname;
 
-    // 🔒 Not logged
-    if (!user) {
-      loading = false;
 
-      if (!currentPath.startsWith("/auth/")) {
-        goto("/auth/signup", { replaceState: true });
-      }
-      return;
-    }
+    const publicPages = [
+  "/privacy-policy",
+  "/terms",
+  "/about",
+  "/contact"
+];
+
+const isPublic = publicPages.some((p) =>
+  currentPath.startsWith(p)
+);
+if (!user) {
+  loading = false;
+
+  if (
+    !currentPath.startsWith("/auth/") &&
+    !isPublic
+  ) {
+    goto("/auth/signup", { replaceState: true });
+  }
+
+  return;
+}
+    // // 🔒 Not logged
+    // if (!user) {
+    //   loading = false;
+
+    //   if (!currentPath.startsWith("/auth/")) {
+    //     goto("/auth/signup", { replaceState: true });
+    //   }
+    //   return;
+    // }
 
     // 🔥 SUPER ADMIN (instant redirect)
     if (user.uid === superAdminUid) {
