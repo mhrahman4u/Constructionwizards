@@ -19,8 +19,8 @@
     "path": "C:\\Users\\abhis\\web-app\\android.keystore",
     "alias": "constructionwizard"
   },
-  "appVersionName": "7",
-  "appVersionCode": 7,
+  "appVersionName": "9",
+  "appVersionCode": 9,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://constructionwizards.app/manifest.webmanifest",
@@ -45,5 +45,5 @@
     "window-controls-overlay",
     "standalone"
   ],
-  "appVersion": "7"
+  "appVersion": "9"
 }
