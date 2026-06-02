@@ -21,15 +21,45 @@
   let initialized = false;
 
   $: courseId = $page.params.id;
+onMount(() => {
 
-  onMount(() => {
-    auth.onAuthStateChanged((u) => {
-      user = u;
-      if (courseId && !initialized) {
-        initPage();
-      }
-    });
+  // Browser locale
+
+  const locale =
+    navigator.language || "en-IN";
+
+  console.log("Locale:", locale);
+
+  // India detection
+
+  const isIndia =
+    locale.toLowerCase().includes("-in");
+
+  // Save country
+
+  localStorage.setItem(
+    "country",
+    isIndia ? "IN" : "US"
+  );
+
+  console.log(
+    "Saved Country:",
+    localStorage.getItem("country")
+  );
+
+  // Firebase auth
+
+  auth.onAuthStateChanged((u) => {
+
+    user = u;
+
+    if (courseId && !initialized) {
+      initPage();
+    }
+
   });
+
+});
 
   $: if (courseId && user && !initialized) {
     initPage();
@@ -81,7 +111,81 @@
     isEnrolled = !!data?.length;
   }
 
- async function enrollNow() {
+//  async function enrollNow() {
+
+//   if (!user) {
+//     goto("/auth/login");
+//     return;
+//   }
+
+//   if (isEnrolled) {
+//     goto(`/page/enroll_course`);
+//     return;
+//   }
+
+//   // FREE COURSE
+//   if (!course.price || course.price === 0) {
+//     await supabase.from("enrollments").insert({
+//       user_id: user.uid,
+//       course_id: courseId
+//     });
+
+//     goto(`/page/enroll_course_detail/${courseId}`);
+//     return;
+//   }
+
+//   enrollLoading = true;
+
+//   // Create Razorpay order
+//   const amountInCents = Math.round(course.price * 100);
+//   const res = await fetch("/api/create-order", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ amount: amountInCents,currency:"USD" })
+//   });
+
+//   const order = await res.json();
+
+//   const options = {
+//     key: import.meta.env.PUBLIC_RAZORPAY_KEY,
+//   amount: order.amount,
+//   currency: "USD",
+//   name: "Construction Wizards",
+//   description: course.title,
+//   // image: "/logo.png", // optional logo
+//   order_id: order.id,
+
+
+//     handler: async function (response: any) {
+
+//       await fetch("/api/verify-payment", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//           ...response,
+//           courseId: courseId,
+//           userId: user.uid
+//         })
+//       });
+
+//       isEnrolled = true;
+//       goto(`/page/enroll_course_detail/${courseId}`);
+//     },
+
+//     theme: {
+//       color: "#11ba66"
+//     }
+//   };
+
+//   const rzp = new (window as any).Razorpay(options);
+//   rzp.open();
+
+//   enrollLoading = false;
+// }
+
+
+
+async function enrollNow() {
 
   if (!user) {
     goto("/auth/login");
@@ -93,8 +197,8 @@
     return;
   }
 
-  // FREE COURSE
   if (!course.price || course.price === 0) {
+
     await supabase.from("enrollments").insert({
       user_id: user.uid,
       course_id: courseId
@@ -106,51 +210,148 @@
 
   enrollLoading = true;
 
-  // Create Razorpay order
-  const amountInCents = Math.round(course.price * 100);
-  const res = await fetch("/api/create-order", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ amount: amountInCents,currency:"USD" })
-  });
+  try {
 
-  const order = await res.json();
+    // INDIA => INR
+    // OTHER => USD
+const country =
+  localStorage.getItem("country") || "IN";
 
-  const options = {
-    key: import.meta.env.PUBLIC_RAZORPAY_KEY,
-  amount: order.amount,
-  currency: "USD",
-  name: "Construction Wizards",
-  description: course.title,
-  // image: "/logo.png", // optional logo
-  order_id: order.id,
+const currency =
+  country === "IN"
+    ? "INR"
+    : "USD";
+    // INR => paise
+    // USD => cents
 
+    const amount =
+      currency === "INR"
+        ? Math.round(course.price * 100)
+        : Math.round(course.price * 100);
 
-    handler: async function (response: any) {
+    // CREATE ORDER
+console.log(
+  "Country:",
+  localStorage.getItem("country")
+);
 
-      await fetch("/api/verify-payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...response,
-          courseId: courseId,
-          userId: user.uid
-        })
-      });
+    console.log("Phone:", user.phoneNumber);
+console.log("Currency:", currency);
+    const res = await fetch("/api/create-order", {
 
-      isEnrolled = true;
-      goto(`/page/enroll_course_detail/${courseId}`);
-    },
+      method: "POST",
 
-    theme: {
-      color: "#11ba66"
-    }
-  };
+      headers: {
+        "Content-Type": "application/json"
+      },
 
-  const rzp = new (window as any).Razorpay(options);
-  rzp.open();
+      body: JSON.stringify({
+        amount,
+        currency
+      })
+    });
 
-  enrollLoading = false;
+    const order = await res.json();
+
+    const options = {
+
+      key: import.meta.env.PUBLIC_RAZORPAY_KEY,
+
+      amount: order.amount,
+
+      currency,
+
+      name: "Construction Wizards",
+
+      description: course.title,
+
+      order_id: order.id,
+
+      prefill: {
+
+        name: user.displayName || "",
+
+        email: user.email || "",
+
+        contact: user.phoneNumber || ""
+
+      },
+
+      method: {
+
+        upi: currency === "INR",
+
+        wallet: currency === "INR",
+
+        netbanking: currency === "INR",
+
+        card: true
+
+      },
+
+      config: {
+
+        display: {
+
+          preferences: {
+
+            show_default_blocks: true
+
+          }
+
+        }
+
+      },
+
+      theme: {
+
+        color: "#11ba66"
+
+      },
+
+      handler: async function (response:any) {
+
+        await fetch("/api/verify-payment", {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+
+            ...response,
+
+            courseId,
+
+            userId: user.uid
+
+          })
+        });
+
+        isEnrolled = true;
+
+        goto(`/page/enroll_course_detail/${courseId}`);
+      }
+    };
+
+    const rzp =
+      new (window as any).Razorpay(options);
+
+    rzp.open();
+
+  } catch (err) {
+
+    console.error(err);
+
+    alert("Payment failed");
+
+  } finally {
+
+    enrollLoading = false;
+
+  }
 }
 </script>
 <div class="page">

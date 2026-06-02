@@ -8,21 +8,24 @@ const razorpay = new Razorpay({
 });
 
 export async function POST({ request }) {
-  const { amount, currency } = await request.json();
 
-  const order = await razorpay.orders.create({
-    amount: amount,           // ✅ already in cents (DO NOT multiply)
-    currency: currency || "USD",  // ✅ FULL USD
-    receipt: "receipt_" + Date.now()
-  });
+  const { amount, currency } =
+    await request.json();
+
+  const order =
+    await razorpay.orders.create({
+
+      amount,
+
+      currency: currency || "INR",
+
+      receipt:
+        "receipt_" + Date.now()
+
+    });
 
   return json(order);
 }
-
-
-
-
-
 
 
 

@@ -1,22 +1,36 @@
-node_modules
+# Dependencies
+node_modules/
 
-# Output
-.output
-.vercel
-.netlify
-.wrangler
-/.svelte-kit
-/build
+# SvelteKit / Build
+.svelte-kit/
+build/
+dist/
+.output/
 
-# OS
-.DS_Store
-Thumbs.db
+# Deploy
+.vercel/
+.netlify/
+.wrangler/
 
-# Env
+# Android / Capacitor
+.gradle/
+android/.gradle/
+android/build/
+android/app/build/
+
+# App builds
+*.apk
+*.aab
+
+# Environment
 .env
 .env.*
 !.env.example
 !.env.test
+
+# OS Files
+.DS_Store
+Thumbs.db
 
 # Vite
 vite.config.js.timestamp-*
