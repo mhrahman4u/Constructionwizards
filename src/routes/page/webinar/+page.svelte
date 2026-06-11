@@ -403,9 +403,19 @@
 }
 
 /* ---------------- BANNER ---------------- */
+.banner{
+  position:relative;
+  width:100%;
+  aspect-ratio:16/9;
+  overflow:hidden;
+}
+
+
+
+
 .banner img {
   width:100%;
-  height:170px;
+  height:100%;
   object-fit:cover;
 }
 
@@ -485,9 +495,9 @@ button.status.COMPLETED { background:#9e9e9e; }
     height:400px;
   }
 
-  .banner img {
+  /* .banner img {
     height:150px;
-  }
+  } */
 
   .title {
     font-size:14px;
@@ -514,7 +524,7 @@ button.status.COMPLETED { background:#9e9e9e; }
   }
 
   .banner img {
-    height:180px;
+    height:100%;
   }
 }
 
