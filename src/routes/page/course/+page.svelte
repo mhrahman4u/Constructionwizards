@@ -93,64 +93,98 @@
 
 
 
+// async function enrollWithRazorpay(course: any) {
+//   if (!user) {
+//     goto("/auth/login");
+//     return;
+//   }
+
+//   // Free course
+//   if (!course.price || course.price === 0) {
+//     await supabase.from("enrollments").insert({
+//       user_id: user.uid,
+//       course_id: course.id
+//     });
+
+//     goto(`/page/enroll_course_detail/${course.id}`);
+//     return;
+//   }
+
+//   // Create order
+//   const amountInCents = Math.round(course.price * 100);
+//   const res = await fetch("/api/create-order", {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({ amount: amountInCents,currency:"USD" })
+//   });
+
+//   const order = await res.json();
+
+//   const options = {
+//     key: import.meta.env.PUBLIC_RAZORPAY_KEY,
+//   amount: order.amount,
+//   currency: "USD",
+//   name: "Construction Wizards",
+//   description: course.title,
+//   // image: "/logo.png", // optional logo
+//   order_id: order.id,
+
+
+//     handler: async function (response: any) {
+//       await fetch("/api/verify-payment", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({
+//           ...response,
+//           courseId: course.id,
+//           userId: user.uid
+//         })
+//       });
+
+//       goto(`/page/enroll_course_detail/${course.id}`);
+//     },
+
+//     theme: {
+//       color: "#11ba66"
+//     }
+//   };
+
+//   const rzp = new (window as any).Razorpay(options);
+//   rzp.open();
+// }
 async function enrollWithRazorpay(course: any) {
+
   if (!user) {
     goto("/auth/login");
     return;
   }
 
-  // Free course
-  if (!course.price || course.price === 0) {
-    await supabase.from("enrollments").insert({
-      user_id: user.uid,
-      course_id: course.id
-    });
-
+  if (enrolledCourseIds.has(course.id)) {
     goto(`/page/enroll_course_detail/${course.id}`);
     return;
   }
 
-  // Create order
-  const amountInCents = Math.round(course.price * 100);
-  const res = await fetch("/api/create-order", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ amount: amountInCents,currency:"USD" })
-  });
+  const phone = "918374923469";
 
-  const order = await res.json();
+  const message =
+`Hello Construction Wizards,
 
-  const options = {
-    key: import.meta.env.PUBLIC_RAZORPAY_KEY,
-  amount: order.amount,
-  currency: "USD",
-  name: "Construction Wizards",
-  description: course.title,
-  // image: "/logo.png", // optional logo
-  order_id: order.id,
+I want to enroll in:
+
+Course: ${course.title}
 
 
-    handler: async function (response: any) {
-      await fetch("/api/verify-payment", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...response,
-          courseId: course.id,
-          userId: user.uid
-        })
-      });
+Name: ${user.displayName || ""}
+Email: ${user.email || ""}
+Phone: ${user.phoneNumber || ""}
 
-      goto(`/page/enroll_course_detail/${course.id}`);
-    },
+Please provide payment details.
+`;
 
-    theme: {
-      color: "#11ba66"
-    }
-  };
+  const url =
+    `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
 
-  const rzp = new (window as any).Razorpay(options);
-  rzp.open();
+  window.open(url, "_blank");
 }
 </script>
 <div class="page">

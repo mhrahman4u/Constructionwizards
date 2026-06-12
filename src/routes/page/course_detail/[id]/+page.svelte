@@ -185,6 +185,174 @@ onMount(() => {
 
 
 
+// async function enrollNow() {
+
+//   if (!user) {
+//     goto("/auth/login");
+//     return;
+//   }
+
+//   if (isEnrolled) {
+//     goto(`/page/enroll_course`);
+//     return;
+//   }
+
+//   if (!course.price || course.price === 0) {
+
+//     await supabase.from("enrollments").insert({
+//       user_id: user.uid,
+//       course_id: courseId
+//     });
+
+//     goto(`/page/enroll_course_detail/${courseId}`);
+//     return;
+//   }
+
+//   enrollLoading = true;
+
+//   try {
+
+//     // INDIA => INR
+//     // OTHER => USD
+// const country =
+//   localStorage.getItem("country") || "IN";
+
+// const currency =
+//   country === "IN"
+//     ? "INR"
+//     : "USD";
+//     // INR => paise
+//     // USD => cents
+
+//     const amount =
+//       currency === "INR"
+//         ? Math.round(course.price * 100)
+//         : Math.round(course.price * 100);
+
+//     // CREATE ORDER
+// console.log(
+//   "Country:",
+//   localStorage.getItem("country")
+// );
+
+//     console.log("Phone:", user.phoneNumber);
+// console.log("Currency:", currency);
+//     const res = await fetch("/api/create-order", {
+
+//       method: "POST",
+
+//       headers: {
+//         "Content-Type": "application/json"
+//       },
+
+//       body: JSON.stringify({
+//         amount,
+//         currency
+//       })
+//     });
+
+//     const order = await res.json();
+
+//     const options = {
+
+//       key: import.meta.env.PUBLIC_RAZORPAY_KEY,
+
+//       amount: order.amount,
+
+//       currency,
+
+//       name: "Construction Wizards",
+
+//       description: course.title,
+
+//       order_id: order.id,
+
+//       prefill: {
+
+//         name: user.displayName || "",
+
+//         email: user.email || "",
+
+//         contact: user.phoneNumber || ""
+
+//       },
+
+//       method: {
+
+//         upi: currency === "INR",
+
+//         wallet: currency === "INR",
+
+//         netbanking: currency === "INR",
+
+//         card: true
+
+//       },
+
+//       config: {
+
+//         display: {
+
+//           preferences: {
+
+//             show_default_blocks: true
+
+//           }
+
+//         }
+
+//       },
+
+//       theme: {
+
+//         color: "#11ba66"
+
+//       },
+
+//       handler: async function (response:any) {
+
+//         await fetch("/api/verify-payment", {
+
+//           method: "POST",
+
+//           headers: {
+//             "Content-Type": "application/json"
+//           },
+
+//           body: JSON.stringify({
+
+//             ...response,
+
+//             courseId,
+
+//             userId: user.uid
+
+//           })
+//         });
+
+//         isEnrolled = true;
+
+//         goto(`/page/enroll_course_detail/${courseId}`);
+//       }
+//     };
+
+//     const rzp =
+//       new (window as any).Razorpay(options);
+
+//     rzp.open();
+
+//   } catch (err) {
+
+//     console.error(err);
+
+//     alert("Payment failed");
+
+//   } finally {
+
+//     enrollLoading = false;
+
+//   }
+// }
 async function enrollNow() {
 
   if (!user) {
@@ -193,165 +361,31 @@ async function enrollNow() {
   }
 
   if (isEnrolled) {
-    goto(`/page/enroll_course`);
-    return;
-  }
-
-  if (!course.price || course.price === 0) {
-
-    await supabase.from("enrollments").insert({
-      user_id: user.uid,
-      course_id: courseId
-    });
-
     goto(`/page/enroll_course_detail/${courseId}`);
     return;
   }
 
-  enrollLoading = true;
+  const phone = "918374923469"; // your WhatsApp number
 
-  try {
+  const message = `
+Hello Construction Wizards,
 
-    // INDIA => INR
-    // OTHER => USD
-const country =
-  localStorage.getItem("country") || "IN";
+I want to enroll in:
 
-const currency =
-  country === "IN"
-    ? "INR"
-    : "USD";
-    // INR => paise
-    // USD => cents
+Course: ${course.title}
 
-    const amount =
-      currency === "INR"
-        ? Math.round(course.price * 100)
-        : Math.round(course.price * 100);
 
-    // CREATE ORDER
-console.log(
-  "Country:",
-  localStorage.getItem("country")
-);
+Name: ${user.displayName || ""}
+Email: ${user.email || ""}
+Phone: ${user.phoneNumber || ""}
 
-    console.log("Phone:", user.phoneNumber);
-console.log("Currency:", currency);
-    const res = await fetch("/api/create-order", {
+Please provide payment details.
+`;
 
-      method: "POST",
+  const url =
+    `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
 
-      headers: {
-        "Content-Type": "application/json"
-      },
-
-      body: JSON.stringify({
-        amount,
-        currency
-      })
-    });
-
-    const order = await res.json();
-
-    const options = {
-
-      key: import.meta.env.PUBLIC_RAZORPAY_KEY,
-
-      amount: order.amount,
-
-      currency,
-
-      name: "Construction Wizards",
-
-      description: course.title,
-
-      order_id: order.id,
-
-      prefill: {
-
-        name: user.displayName || "",
-
-        email: user.email || "",
-
-        contact: user.phoneNumber || ""
-
-      },
-
-      method: {
-
-        upi: currency === "INR",
-
-        wallet: currency === "INR",
-
-        netbanking: currency === "INR",
-
-        card: true
-
-      },
-
-      config: {
-
-        display: {
-
-          preferences: {
-
-            show_default_blocks: true
-
-          }
-
-        }
-
-      },
-
-      theme: {
-
-        color: "#11ba66"
-
-      },
-
-      handler: async function (response:any) {
-
-        await fetch("/api/verify-payment", {
-
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          body: JSON.stringify({
-
-            ...response,
-
-            courseId,
-
-            userId: user.uid
-
-          })
-        });
-
-        isEnrolled = true;
-
-        goto(`/page/enroll_course_detail/${courseId}`);
-      }
-    };
-
-    const rzp =
-      new (window as any).Razorpay(options);
-
-    rzp.open();
-
-  } catch (err) {
-
-    console.error(err);
-
-    alert("Payment failed");
-
-  } finally {
-
-    enrollLoading = false;
-
-  }
+  window.open(url, "_blank");
 }
 </script>
 <div class="page">
@@ -381,10 +415,11 @@ console.log("Currency:", currency);
 
       {:else if course.price > 0}
   <div class="price">
-    {new Intl.NumberFormat("en-US", {
+    <!-- {new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD"
-    }).format(course.price)}
+    }).format(course.price)} -->
+    Paid
     <span>one time</span>
   </div>
 
@@ -442,7 +477,7 @@ console.log("Currency:", currency);
     on:click={enrollNow} 
     disabled={enrollLoading} >
      {#if enrollLoading} Processing... 
-     {:else} {isEnrolled ? "Start Learning" : "Enroll Now"} 
+     {:else} {isEnrolled ? "Start Learning" : "Chat on what's app"} 
      {/if} 
     </button>
  </div>

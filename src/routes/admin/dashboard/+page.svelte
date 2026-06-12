@@ -115,6 +115,20 @@ onMount(() => {
         <span>Add Mentor</span>
       </button>
 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <button
+  class="action"
+  on:click={() => goto("/admin/manual_enrollment")}
+>
+  <div class="circle">✅</div>
+  <span>Approve course</span>
+</button>
     </div>
 
     <!-- ================= STATS GRID ================= -->
