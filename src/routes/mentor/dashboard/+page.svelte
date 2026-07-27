@@ -100,12 +100,20 @@
       <div class="sub">Student messages</div>
     </button>
 
+
     <button class="card" on:click={() => goto("/mentor/mentor_course")}>
       <div class="icon">📚</div>
       <div class="card-title">Teaching</div>
       <div class="sub">Your courses</div>
     </button>
 
+    
+    <button class="card" on:click={() => goto("/mentor/enrollment")}>
+      <div class="icon">👥</div>
+      <div class="card-title">Enroll Student</div>
+      <div class="sub"> learners</div>
+    </button>
+    
     <button class="card" on:click={() => goto("/mentor/mentor_upload_course")}>
       <div class="icon">🎥</div>
       <div class="card-title">Add Video</div>
