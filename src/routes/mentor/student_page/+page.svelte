@@ -10,6 +10,13 @@
   let search = "";
   let activeMenu: string | null = null;
 
+
+  let showRemoveModal = false;
+let removeData = {
+  userId: "",
+  courseId: ""
+};
+
   /* ================= FILTER ================= */
 
   $: filteredStudents =
@@ -102,37 +109,50 @@
       loading = false;
     }
   }
-
 async function removeStudent(userId: string, courseId: string) {
 
-  const confirmDelete = confirm(
-    "Remove this student from this course?"
-  );
+  removeData = {
+    userId,
+    courseId
+  };
 
-  if (!confirmDelete) return;
+  showRemoveModal = true;
+}
+async function confirmRemoveStudent() {
 
-  const { error } = await supabase
+  const { userId, courseId } = removeData;
+
+
+  const { data, error } = await supabase
     .from("enrollments")
     .delete()
     .eq("user_id", userId)
-    .eq("course_id", courseId);
+    .eq("course_id", courseId)
+    .select();
 
 
-  if (error) {
-    console.error("Remove student error:", error);
-    alert("Failed to remove student");
+  if(error){
+    console.error(error);
+    return;
+  }
+
+
+  if(!data || data.length === 0){
+    console.log("No enrollment found");
     return;
   }
 
 
   students = students.filter(
-    (item) =>
+    item =>
       !(
         item.user.uid === userId &&
         item.courseId === courseId
       )
   );
 
+
+  showRemoveModal = false;
   activeMenu = null;
 }
 </script>
@@ -218,6 +238,47 @@ async function removeStudent(userId: string, courseId: string) {
     </div>
   {/if}
 
+
+  {#if showRemoveModal}
+
+<div class="modal-overlay">
+
+  <div class="modal-box">
+
+    <h3>Remove Student?</h3>
+
+    <p>
+      Are you sure you want to remove this student from this course?
+    </p>
+
+
+    <div class="modal-actions">
+
+      <button
+        class="cancel"
+        on:click={() => {
+          showRemoveModal = false;
+          activeMenu = null;
+        }}
+      >
+        Cancel
+      </button>
+
+
+      <button
+        class="confirm"
+        on:click={confirmRemoveStudent}
+      >
+        Remove
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+{/if}
 </div>
 
 <style>
@@ -463,4 +524,78 @@ async function removeStudent(userId: string, courseId: string) {
 .popup button:hover {
   background: #f5f5f5;
 }
+/* ================= REMOVE MODAL ================= */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+}
+
+
+.modal-box {
+
+  width: 90%;
+  max-width: 360px;
+  background: white;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 15px 40px rgba(0,0,0,.2);
+
+}
+
+
+.modal-box h3 {
+  margin: 0 0 10px;
+  font-size: 20px;
+}
+
+
+.modal-box p {
+  color:#666;
+  font-size:14px;
+  line-height:1.5;
+}
+
+
+.modal-actions {
+
+  display:flex;
+  justify-content:flex-end;
+  gap:12px;
+  margin-top:20px;
+
+}
+
+
+.modal-actions button {
+
+  padding:10px 18px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
+  font-weight:600;
+
+}
+
+
+.cancel {
+
+  background:#eee;
+  color:#555;
+
+}
+
+
+.confirm {
+
+  background:#e53935;
+  color:white;
+
+}
+
 </style>
