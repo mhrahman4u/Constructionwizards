@@ -8,6 +8,7 @@
   let students: any[] = [];
   let loading = true;
   let search = "";
+  let activeMenu: string | null = null;
 
   /* ================= FILTER ================= */
 
@@ -87,7 +88,8 @@
         if (user && course) {
           finalList.push({
             user,
-            course: course.title
+            course: course.title,
+            courseId: course.id,
           });
         }
       }
@@ -100,6 +102,39 @@
       loading = false;
     }
   }
+
+async function removeStudent(userId: string, courseId: string) {
+
+  const confirmDelete = confirm(
+    "Remove this student from this course?"
+  );
+
+  if (!confirmDelete) return;
+
+  const { error } = await supabase
+    .from("enrollments")
+    .delete()
+    .eq("user_id", userId)
+    .eq("course_id", courseId);
+
+
+  if (error) {
+    console.error("Remove student error:", error);
+    alert("Failed to remove student");
+    return;
+  }
+
+
+  students = students.filter(
+    (item) =>
+      !(
+        item.user.uid === userId &&
+        item.courseId === courseId
+      )
+  );
+
+  activeMenu = null;
+}
 </script>
 
 <AppBar title="Students" showBack={true} />
@@ -142,8 +177,42 @@
             <div class="course">Course: {item.course}</div>
           </div>
 
-          <div class="arrow">›</div>
+<div class="menu-wrapper">
 
+  <button
+    class="menu-btn"
+    on:click={() =>
+      activeMenu =
+      activeMenu === item.user.uid
+      ? null
+      : item.user.uid
+    }
+  >
+    ⋮
+  </button>
+
+
+  {#if activeMenu === item.user.uid}
+
+    <div class="popup">
+
+      <button
+        class="remove"
+        on:click={() =>
+          removeStudent(
+            item.user.uid,
+            item.courseId
+          )
+        }
+      >
+        Remove Student
+      </button>
+
+    </div>
+
+  {/if}
+
+</div>
         </div>
       {/each}
     </div>
@@ -346,5 +415,52 @@
     gap: 22px;
   }
 
+}
+
+
+
+.menu-wrapper {
+  position: relative;
+}
+
+.menu-btn {
+  border: none;
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+  color: #777;
+}
+
+
+.popup {
+  position: absolute;
+  right: 0;
+  top: 35px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,.15);
+  padding: 8px;
+  z-index: 20;
+  min-width: 150px;
+}
+
+
+.popup button {
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+
+.popup .remove {
+  color: #e53935;
+}
+
+
+.popup button:hover {
+  background: #f5f5f5;
 }
 </style>
