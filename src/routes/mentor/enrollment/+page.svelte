@@ -131,7 +131,7 @@ function selectUser(user: any) {
     }
   }
 </script>
-<AppBar title="My Courses" showBack={true} />
+<AppBar title="Enroll Student" showBack={true} />
 
 <div class="page">
 
