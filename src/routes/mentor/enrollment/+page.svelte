@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount, onDestroy } from "svelte";
   import { supabase } from "$lib/supabase";
+  import AppBar from "$lib/AppBar1.svelte";
 
   let users: any[] = [];
   let courses: any[] = [];
@@ -130,6 +131,8 @@ function selectUser(user: any) {
     }
   }
 </script>
+<AppBar title="My Courses" showBack={true} />
+
 <div class="page">
 
   <h1>Assign Course Access</h1>
