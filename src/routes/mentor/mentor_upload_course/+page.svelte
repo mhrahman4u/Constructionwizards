@@ -23,6 +23,8 @@
 
   let subjects: any[] = [];
 
+  let priceType: "free" | "paid" = "paid";
+  let price: number = 1;
   /* ================= AUTO CLEAR ERROR ================= */
 
 $: if (error && (title || category || duration || level || description || bannerFile)) {
@@ -120,7 +122,8 @@ $: if (error && (title || category || duration || level || description || banner
           level,
           description,
           banner: bannerUrl,
-          mentor_id: user.uid
+          mentor_id: user.uid,
+          price: priceType === "paid" ? 1 : 0
         })
         .select()
         .single();
@@ -194,12 +197,18 @@ $: if (error && (title || category || duration || level || description || banner
         <option value={c}>{c}</option>
       {/each}
     </select>
+   
+ <select bind:value={priceType}>
+  <option value="free">Free</option>
+  <option value="paid">Paid</option>
+</select>
+
 
     <input placeholder="Duration (10 hours)" bind:value={duration} />
     <input placeholder="Level (Beginner/Advanced)" bind:value={level} />
 
     <textarea placeholder="Description" bind:value={description}></textarea>
-
+    
   </div>
 
   <!-- SUBJECTS -->

@@ -40,12 +40,16 @@
     const realCategory = categoryMap[activeTab];
 
     const [coursesRes, enrollmentsRes] = await Promise.all([
-      supabase
-        .from("courses")
-        .select()
-        .eq("category", realCategory)
-        .order("created_at", { ascending: false }),
-
+      // supabase
+      //   .from("courses")
+      //   .select()
+      //   .eq("category", realCategory)
+      //   .order("created_at", { ascending: false }),
+         supabase
+  .from("courses")
+  .select("*")
+  .ilike("category", realCategory.trim())
+  .order("created_at", { ascending: false }),
       user
         ? supabase
             .from("enrollments")
