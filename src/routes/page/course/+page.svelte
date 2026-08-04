@@ -12,6 +12,7 @@
   let user: any = null;
   let enrolledCourseIds = new Set<string>();
 
+    
   const tabs = [
     { key: "project", label: "Project" },
     { key: "design", label: "Design" },
@@ -20,8 +21,8 @@
   ];
 
   const categoryMap: Record<string, string> = {
-    project: "Project & Cost Management Certifications",
-    design: "Design Development Training",
+    project: "Project Management",
+    design: "Design Development",
     software: "Software Training",
     specialization: "Specialization Training"
   };

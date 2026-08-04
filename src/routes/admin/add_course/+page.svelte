@@ -22,8 +22,8 @@
   let bannerPreview = "";
 
   let categories = [
-    "Project & Cost Management Certifications",
-    "Design Development Training",
+    "Project Management",
+    "Design Development",
     "Software Training",
     "Specialization Training",
   ];
